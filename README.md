@@ -41,47 +41,65 @@ docker build -t gcr.io/PROJECT_ID/frontend:v1 .
 docker push gcr.io/PROJECT_ID/frontend:v1
 ```
 
-### CREAR ARBOL MYSQL
-
-kubectl create configmap mysql-init --from-file=../mysql/init.sql
+### 3. Crear arbol MYSQL
+```bash
+# crear
+cd ../mysql
+kubectl create configmap mysql-init --from-file=init.sql
 
 # verificar
 kubectl get configmaps mysql-init
 kubectl describe configmap mysql-init
+```
 
-
-### 3. Aplicar manifiestos de Kubernetes
+### 4. Aplicar manifiestos de Kubernetes
 ```bash
 cd ../k8s
 kubectl apply -f mysql-deployment.yaml
 kubectl apply -f backend-deployment.yaml
 kubectl apply -f frontend-deployment.yaml
-###  kubectl apply -f ingress-dom.yaml  
+
+# Usar con dominio
+kubectl apply -f ingress-dom.yaml  
+
+# usar con IP
 kubectl apply -f ingress-ip.yaml
 
 ```
 
-### 4. Instalar NGINX Ingress Controller (si no está instalado)
+### 5. Instalar NGINX Ingress Controller (si no está instalado)
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
 ```
 
-### 5. Configurar DNS
+### 6. Obtener IP (si se utilizo ingress-ip.yaml)
 - Obtén la IP externa del Ingress:
 
-kubectl get svc -n ingress-nginx
+  ```bash
+  kubectl get svc -n ingress-nginx
+
+  ```
+
+### 7. Configurar DNS (si se utilizo ingress-dom.yaml)
+- Obtén la IP externa del Ingress:
 
   ```bash
   kubectl get ingress fullstack-ingress
   ```
 - Asocia la IP a tu dominio (ej. `biblioteca.example.com`) o usa un servicio como `nip.io`.
 
+# Para realizar pruebas localmente
+
+- Agrega el dominio a tu archivo host con la IP obenida de tu ingress.
+
+IP-INGRESS biblioteca.example.com
 
 
-
-### 6. Acceder a la aplicación
+### 8. Acceder a la aplicación
 
 Visita: [http://biblioteca.example.com](http://biblioteca.example.com)
+
+Visita: IP-INGRESS
 
 ---
 
