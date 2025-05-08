@@ -52,7 +52,18 @@ kubectl get configmaps mysql-init
 kubectl describe configmap mysql-init
 ```
 
-### 4. Aplicar manifiestos de Kubernetes
+### 4. Editar la ruta de las imagenes en los arcivos deployment
+
+image: gcr.io/PROJECT_ID/frontend:v1
+
+```
+k8s_fullstack_example/
+└── k8s/
+    ├── backend-deployment.yaml
+    └── frontend-deployment.yaml
+```
+
+### 5. Aplicar manifiestos de Kubernetes
 ```bash
 cd ../k8s
 kubectl apply -f mysql-deployment.yaml
@@ -67,12 +78,12 @@ kubectl apply -f ingress-ip.yaml
 
 ```
 
-### 5. Instalar NGINX Ingress Controller (si no está instalado)
+### 6. Instalar NGINX Ingress Controller (si no está instalado)
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
 ```
 
-### 6. Obtener IP (si se utilizo ingress-ip.yaml)
+### 7. Obtener IP (si se utilizo ingress-ip.yaml)
 - Obtén la IP externa del Ingress:
 
   ```bash
@@ -80,7 +91,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 
   ```
 
-### 7. Configurar DNS (si se utilizo ingress-dom.yaml)
+### 8. Configurar DNS (si se utilizo ingress-dom.yaml)
 - Obtén la IP externa del Ingress:
 
   ```bash
@@ -95,7 +106,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 IP-INGRESS biblioteca.example.com
 
 
-### 8. Acceder a la aplicación
+### 9. Acceder a la aplicación
 
 Visita: [http://biblioteca.example.com](http://biblioteca.example.com)
 
