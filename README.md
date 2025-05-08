@@ -116,7 +116,7 @@ Visita: IP-INGRESS
 
 Este ejemplo muestra cómo una app completa puede comunicarse entre frontend, backend y base de datos en Kubernetes usando GKE e Ingress.
 
-# -----------------------------------------------------------------------------------
+
 
 # Fullstack Library Project on Kubernetes using GKE
 
