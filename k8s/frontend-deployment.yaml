@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: gcr.io/kubernetes-test-458619/frontend:v2
+          image: gcr.io/PROJECT_ID/frontend:v1
           ports:
             - containerPort: 80
 ---
