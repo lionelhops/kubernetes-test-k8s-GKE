@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: gcr.io/kubernetes-test-458619/backend:v2
+          image: gcr.io/PROJECT_ID/frontend:v1
           env:
             - name: DB_HOST
               value: mysql
