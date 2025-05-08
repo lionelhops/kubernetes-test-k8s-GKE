@@ -115,3 +115,126 @@ Visita: IP-INGRESS
 ---
 
 Este ejemplo muestra cómo una app completa puede comunicarse entre frontend, backend y base de datos en Kubernetes usando GKE e Ingress.
+
+
+#########################################################
+# EN
+
+# Fullstack Library Project on Kubernetes using GKE
+
+This project allows you to register and query books from a web frontend, through a Flask backend, and store the data in a MySQL database.
+
+## 📦 Structure
+```
+k8s_fullstack_example/
+├── backend/
+│   ├── app.py
+│   └── Dockerfile
+├── frontend/
+│   ├── index.html
+│   └── Dockerfile
+├── mysql/
+│   └── init.sql
+└── k8s/
+    ├── mysql-deployment.yaml
+    ├── backend-deployment.yaml
+    ├── frontend-deployment.yaml
+    └── ingress.yaml
+```
+
+## 🚀 Deployment Instructions
+
+### 1. Create the Cluster in GKE
+```bash
+gcloud container clusters create my-cluster --num-nodes=3 --region=us-central1
+gcloud container clusters get-credentials my-cluster --region=us-central1
+```
+
+### 2. Build and Push Images
+```bash
+# Backend
+cd backend
+docker build -t gcr.io/PROJECT_ID/backend:v1 .
+docker push gcr.io/PROJECT_ID/backend:v1
+
+# Frontend
+cd ../frontend
+docker build -t gcr.io/PROJECT_ID/frontend:v1 .
+docker push gcr.io/PROJECT_ID/frontend:v1
+```
+
+### 3. Create MySQL Config
+```bash
+# Create
+cd ../mysql
+kubectl create configmap mysql-init --from-file=init.sql
+
+# Verify
+kubectl get configmaps mysql-init
+kubectl describe configmap mysql-init
+```
+
+### 4. Edit Image Paths in Deployment Files
+
+image: gcr.io/PROJECT_ID/frontend:v1
+
+```
+k8s_fullstack_example/
+└── k8s/
+    ├── backend-deployment.yaml
+    └── frontend-deployment.yaml
+```
+
+### 5. Apply Kubernetes Manifests
+```bash
+cd ../k8s
+kubectl apply -f mysql-deployment.yaml
+kubectl apply -f backend-deployment.yaml
+kubectl apply -f frontend-deployment.yaml
+
+# Use with domain
+kubectl apply -f ingress-dom.yaml  
+
+# Use with IP
+kubectl apply -f ingress-ip.yaml
+```
+
+### 6. Install NGINX Ingress Controller (if not installed)
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
+```
+
+### 7. Get External IP (if using ingress-ip.yaml)
+- Retrieve the external IP of the Ingress:
+  ```bash
+  kubectl get svc -n ingress-nginx
+  ```
+
+### 8. Configure DNS (if using ingress-dom.yaml)
+- Retrieve the external IP of the Ingress:
+  ```bash
+  kubectl get ingress fullstack-ingress
+  ```
+- Associate the IP with your domain (e.g., `biblioteca.example.com`) or use a service like `nip.io`.
+
+# For Local Testing
+
+- Add the domain to your hosts file with the IP obtained from your ingress.
+
+```
+IP-INGRESS biblioteca.example.com
+```
+
+### 9. Access the Application
+
+Visit: [http://biblioteca.example.com](http://biblioteca.example.com)
+
+Or visit: IP-INGRESS
+
+---
+
+This example shows how a complete application can communicate between frontend, backend, and database on Kubernetes using GKE and Ingress.
+
+
+
+
