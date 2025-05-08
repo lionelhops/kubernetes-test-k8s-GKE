@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Biblioteca</title>
+  <script>
+    async function fetchBooks() {
+      const res = await fetch('/api/books');
+      const books = await res.json();
+      const list = document.getElementById('book-list');
+      list.innerHTML = '';
+      books.forEach(book => {
+        const item = document.createElement('li');
+        item.innerText = `${book.title} - ${book.author}`;
+        list.appendChild(item);
+      });
+    }
+
+    async function addBook() {
+      const title = document.getElementById('title').value;
+      const author = document.getElementById('author').value;
+      await fetch('/api/books', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, author })
+      });
+      fetchBooks();
+    }
+
+    window.onload = fetchBooks;
+  </script>
+</head>
+<body>
+  <h1>Biblioteca</h1>
+  <input type="text" id="title" placeholder="Título">
+  <input type="text" id="author" placeholder="Autor">
+  <button onclick="addBook()">Agregar Libro</button>
+  <ul id="book-list"></ul>
+</body>
+</html>

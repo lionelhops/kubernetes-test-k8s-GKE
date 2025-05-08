@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Biblioteca</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    h3 {
+      text-align: center;
+      color: #333;
+    }
+
+    .form-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #3498db;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    ul#book-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li.book-item {
+      background: #ecf0f1;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .delete-btn {
+      background-color: #e74c3c;
+      padding: 5px 10px;
+      border: none;
+      color: white;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+  <script>
+    async function fetchBooks() {
+      const res = await fetch('/api/books');
+      const books = await res.json();
+      const list = document.getElementById('book-list');
+      list.innerHTML = '';
+      books.forEach(book => {
+        const item = document.createElement('li');
+        item.className = 'book-item';
+        item.innerHTML = `
+          <span>${book.title} - ${book.author}</span>
+          <button class="delete-btn" onclick="deleteBook('${book.id}')">Eliminar</button>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    async function addBook() {
+      const title = document.getElementById('title').value;
+      const author = document.getElementById('author').value;
+      if (!title || !author) {
+        alert("Por favor completa ambos campos.");
+        return;
+      }
+      await fetch('/api/books', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, author })
+      });
+      document.getElementById('title').value = '';
+      document.getElementById('author').value = '';
+      fetchBooks();
+    }
+
+    async function deleteBook(id) {
+      if (confirm("¿Seguro que deseas eliminar este libro?")) {
+        await fetch(`/api/books/${id}`, {
+          method: 'DELETE'
+        });
+        fetchBooks();
+      }
+    }
+
+    window.onload = fetchBooks;
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>📚 Biblioteca </h1>
+    <div class="form-group">
+      <input type="text" id="title" placeholder="Título">
+      <input type="text" id="author" placeholder="Autor">
+      <button onclick="addBook()">Agregar</button>
+    </div>
+    <ul id="book-list"></ul>
+	<h3>Backend/Frontend/Mysql</h3>
+  </div>
+</body>
+</html>
