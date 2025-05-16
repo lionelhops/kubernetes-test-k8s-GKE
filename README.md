@@ -2,7 +2,7 @@
 
 Este proyecto permite registrar y consultar libros desde un frontend web, pasando por un backend Flask y almacenando en una base de datos MySQL.
 
-## 📦 Estructura
+##  Estructura
 ```
 k8s_fullstack_example/
 ├── backend/
@@ -20,7 +20,7 @@ k8s_fullstack_example/
     └── ingress.yaml
 ```
 
-## 🚀 Instrucciones de despliegue
+##  Instrucciones de despliegue
 
 ### 1. Crear el clúster en GKE
 ```bash
@@ -122,7 +122,7 @@ Este ejemplo muestra cómo una app completa puede comunicarse entre frontend, ba
 
 This project allows you to register and query books from a web frontend, through a Flask backend, and store the data in a MySQL database.
 
-## 📦 Structure
+##  Structure
 ```
 k8s_fullstack_example/
 ├── backend/
@@ -140,7 +140,7 @@ k8s_fullstack_example/
     └── ingress.yaml
 ```
 
-## 🚀 Deployment Instructions
+##  Deployment Instructions
 
 ### 1. Create the Cluster in GKE
 ```bash
